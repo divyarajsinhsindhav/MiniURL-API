@@ -1,0 +1,64 @@
+# URL Shortener API
+
+- [Introduction](#introduction)
+- [Technologies Used](#technologies-used)
+- [How to Run](#how-to-run)
+- [Endpoints](#endpoints)
+  - [User](#user)
+  - [URL](#url)
+  - [Admin](#admin)
+- [Authentication and Authorization](#authentication-and-authorization)
+- [How to Use](#how-to-use)
+
+## Introduction
+
+This API provides functionality for a URL shortening service. Users can register, login, generate short URLs, and access administrative features.
+
+## Postman Collection
+
+You can find the Postman collection for this API [here](https://api.postman.com/collections/32815450-0fe62112-2c8e-4d3f-8b31-bfa15149803b?access_key=PMAT-01HXVJY6MC8G8EH8MGDDY0TXYS).
+
+## Technologies Used
+
+- Node.js
+- Express.js
+- MongoDB (or your preferred database)
+- JSON Web Tokens (JWT) for authentication
+- bcrypt for password hashing
+
+## How to Run
+
+1. Clone this repository.
+2. Install dependencies with `npm install`.
+3. Set up your environment variables (e.g., database connection, JWT secret).
+4. Run the server with `npm start`.
+
+## Endpoints
+
+### User
+
+- `POST /api/v1/register`: Register a new user.
+- `POST /api/v1/login`: Log in as an existing user.
+- `GET /api/v1/profile`: Get the profile of the logged-in user.
+
+### URL
+
+- `POST /api/v1/createshorturl`: Generate a short URL for a given long URL.
+
+### Admin
+
+- `GET /api/v1/admin`: Get the profile of the admin user.
+- `GET /api/v1/admin/getalluser`: Get all users (admin access required).
+
+## Authentication and Authorization
+
+- Authentication is required for most endpoints using JWT tokens.
+- Some endpoints require admin privileges for access.
+
+## How to Use
+
+1. Register a new user using `POST /api/v1/register`.
+2. Log in using `POST /api/v1/login` to obtain a JWT token.
+3. Use the token to access protected endpoints.
+4. Generate short URLs using `POST /api/v1/createshorturl`.
+5. Admins can access additional endpoints for user management.
