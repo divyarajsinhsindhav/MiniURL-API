@@ -14,10 +14,6 @@ exports.getAllUser = async (req, res) => {
     }
 }
 
-exports.deleteUser = async (req, res) => {
-    
-}
-
 exports.getAllUrlDetails = async (req, res) => {
     try {
         const data = await(URLServices.getAllURLWithMetric())
@@ -25,5 +21,25 @@ exports.getAllUrlDetails = async (req, res) => {
         return res.send({ data: data });
     } catch (e) {
         throw Error("Error while get all url details")
+    }
+}
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const userId = req.body.userid;
+        const data = await(UserServices.deleteUser(userId));
+        return res.send({ message: `User with ${userId} successfully deleted`, data: data  });
+    } catch (e) {
+        throw Error("Error while deleting user by Adminss")
+    }
+}
+
+exports.deleteUrl = async (req, res) => {
+    try {
+        const urlId = req.body.urlid
+        const data = await URLServices.deleteURL(urlId);
+        return res.send({ message: "Delete the URL successfully", data: data })
+    } catch (e) {
+        throw Error("Error while delete the URL by Admin")
     }
 }

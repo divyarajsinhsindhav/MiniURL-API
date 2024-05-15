@@ -1,4 +1,5 @@
 const URL = require('../models/url.models')
+const Matric = require('../models/matric.models')
 const crypto = require('crypto');
 
 const generateShortUrl = async () => {
@@ -77,10 +78,16 @@ exports.updateURL = async () => {
     }
 }
 
-exports.deleteURL = async () => {
+exports.deleteURL = async (urlId) => {
     try {
-        
+        const url = await URL.findById(urlId);
+        if (!url) {
+            return res.send({ message: "URL not found" });
+        }
+        const metrics = await Matric.find({ metricOf: urlId });
+        await Matric.findByIdAndDelete(metrics._id);
+        await URL.findByIdAndDelete(urlId);
     } catch (e) {
-        
+        throw Error("Error while delete the URL")
     }
 }

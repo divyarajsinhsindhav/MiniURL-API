@@ -3,6 +3,7 @@
 - [Introduction](#introduction)
 - [Technologies Used](#technologies-used)
 - [How to Run](#how-to-run)
+- [Setting Up Environment Variables](#setting-up-environment-variables)
 - [Endpoints](#endpoints)
   - [User](#user)
   - [URL](#url)
@@ -33,6 +34,16 @@ You can find the Postman collection for this API [here](https://api.postman.com/
 3. Set up your environment variables (e.g., database connection, JWT secret).
 4. Run the server with `npm start`.
 
+## Setting Up Environment Variables
+
+Create a `.env` file in the root directory of the project and add the following variables:
+
+```
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/your_database_name
+JWT_SECRET=your_secret_key
+```
+
 ## Endpoints
 
 ### User
@@ -40,6 +51,8 @@ You can find the Postman collection for this API [here](https://api.postman.com/
 - `POST /api/v1/register`: Register a new user.
 - `POST /api/v1/login`: Log in as an existing user.
 - `GET /api/v1/profile`: Get the profile of the logged-in user.
+- `DELETE /api/v1/user/url/d`: Delete the logged-in user.
+- `DELETE /api/v1/profile/d`: Delete the logged-in user.
 
 ### URL
 
@@ -49,6 +62,9 @@ You can find the Postman collection for this API [here](https://api.postman.com/
 
 - `GET /api/v1/admin`: Get the profile of the admin user.
 - `GET /api/v1/admin/getalluser`: Get all users (admin access required).
+- `GET /api/v1/admin/getallurldetails`: Get all URLs (admin access required) with Metrics.
+- `DELETE /api/v1/admin/user/d`: Delete a user (admin access required).
+- `DELETE /api/v1/admin/url/d`: Delete a URL (admin access required).
 
 ## Authentication and Authorization
 

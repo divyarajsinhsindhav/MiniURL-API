@@ -52,6 +52,16 @@ exports.deleteProfile = async (req, res) => {
     }
 }
 
+exports.deleteUrl = async (req, res) => {
+    try {
+        const urlId = req.body.urlid
+        const data = await URLServices.deleteURL(urlId);
+        return res.send({ message: "Delete the URL successfully", data: data })
+    } catch (e) {
+        throw Error("Error while delete the URL by Admin")
+    }
+}
+
 exports.logout = async (req, res) => {
     try {
         

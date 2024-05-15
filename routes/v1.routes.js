@@ -25,6 +25,9 @@ router.get('/admin/getallurldetails', authantication, authorization(true), admin
 
 router.put('/user/:id') //TODO
 
-router.delete('/profile/d/:id', authantication, user.deleteProfile) //TODO
+router.delete('/profile/d/', authantication, user.deleteProfile) 
+router.delete('/admin/user/d/', authantication, authorization(true), admin.deleteUser)
+router.delete('/user/url/d', authantication, user.deleteUrl)
+router.delete('/admin/url/d', authantication, authorization(true), admin.deleteUrl)
 
 module.exports = router
