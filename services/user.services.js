@@ -1,4 +1,6 @@
 const User = require('../models/user.models')
+const URL = require('../models/url.models')
+const Matric = require('../models/matric.models')
 const bcrypt = require('bcrypt')
 
 exports.createUser = async (user) => {
@@ -48,10 +50,21 @@ exports.updateUser = async () => {
     }
 }
 
-exports.deleteUser = async () => {
+exports.deleteUser = async (userId) => {
     try {
-        
-    } catch (e) {
-        
+        // Find user and associated URLs
+        const user = await User.findById(userId);
+        const urls = await URL.find({ createdBy: userId });
+
+        // Delete associated URLs and metrics
+        for (const url of urls) {
+            await Matric.deleteMany({ metricOf: url._id }); // Delete metrics
+            await URL.findByIdAndDelete(url._id); // Delete URL
+        }
+
+        // Delete user
+        await User.findByIdAndDelete(userId);
+    } catch (error) {
+        throw Error("Error whilr delete the user")
     }
 }

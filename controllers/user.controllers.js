@@ -43,6 +43,15 @@ exports.profile = async (req, res) => {
     }
 }
 
+exports.deleteProfile = async (req, res) => {
+    try {
+        const data = UserServices.deleteUser(req.userId);
+        return res.send({ message: "Your profile successfully deleted", data: data })
+    } catch (e) {
+        throw Error("Error while delete the user.")
+    }
+}
+
 exports.logout = async (req, res) => {
     try {
         
