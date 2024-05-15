@@ -21,6 +21,7 @@ router.post('/createshorturl', authantication, url.genrateURL)
 
 router.get('/admin', authantication, authorization(true), admin.profile)
 router.get('/admin/getalluser', authantication, authorization(true), admin.getAllUser)
+router.get('/admin/getallurldetails', authantication, authorization(true), admin.getAllUrlDetails);
 
 router.put('/user/:id') //TODO
 

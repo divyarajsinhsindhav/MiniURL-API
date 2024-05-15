@@ -47,6 +47,28 @@ exports.findURLByUser = async (userId) => {
     }
 }
 
+exports.getAllURLWithMetric = async () => {
+    try {
+        return URL.aggregate([
+            {
+                $lookup: {
+                    from: "matrics",                 
+                    localField: "_id",              
+                    foreignField: "matricOf",       
+                    as: "Matric",
+                    pipeline: [{
+                        $project: {
+                            clickCount: 1
+                        }
+                    }]
+                }
+            }
+        ]);
+    } catch (e) {
+        throw Error("Error while get all urls with metric")
+    }
+}
+
 exports.updateURL = async () => {
     try {
         
