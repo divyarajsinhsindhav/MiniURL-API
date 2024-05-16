@@ -23,7 +23,7 @@ router.get('/admin', authantication, authorization(true), admin.profile)
 router.get('/admin/getalluser', authantication, authorization(true), admin.getAllUser)
 router.get('/admin/getallurldetails', authantication, authorization(true), admin.getAllUrlDetails);
 
-router.put('/user/:id') //TODO
+router.patch('/profile/u', authantication, user.updateProfile)
 
 router.delete('/profile/d/', authantication, user.deleteProfile) 
 router.delete('/admin/user/d/', authantication, authorization(true), admin.deleteUser)

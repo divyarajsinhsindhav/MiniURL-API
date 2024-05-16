@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const UserServices = require('../services/user.services')
 const URLServices = require('../services/url.services')
 const { createAccessToken } = require('../services/authantication.services')
+const User = require('../models/user.models')
 
 exports.register = async (req, res) => {
     try {
@@ -40,6 +41,17 @@ exports.profile = async (req, res) => {
         return res.send({ message: "Successfully geting the user.", data: User, urls: urls })
     } catch (e) {
         throw Error('Error during getting profile')
+    }
+}
+
+exports.updateProfile = async (req, res) => {
+    try {
+        const userId = req.userId
+        const body = req.body;
+        const updatedData = await UserServices.updateUser(userId, body);
+        return res.send({ message: "Your profile update successfully.", data: updatedData })
+    } catch (e) {
+        throw Error("Error while update profile.")
     }
 }
 

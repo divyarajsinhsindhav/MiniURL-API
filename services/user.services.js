@@ -42,11 +42,11 @@ exports.getAllUser = async () => {
     }
 }
 
-exports.updateUser = async () => {
+exports.updateUser = async (userId, body) => {
     try {
-        
+        return User.findByIdAndUpdate(userId, body, { new: true });
     } catch (e) {
-        
+        throw Error("Error while update the user.")
     }
 }
 
