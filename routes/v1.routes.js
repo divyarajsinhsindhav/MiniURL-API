@@ -17,6 +17,19 @@ router.post('/register', user.register)
 router.post('/login', user.login)
 router.post('/logout', authantication, user.logout)
 
+router.get('/resetpassword', (req, res) => {
+    try {
+        const { token } = req.query;
+        console.log(token)
+        res.render('password-reset', { token: token });
+    } catch (e) {
+        throw Error("Error while geting password-reset template")
+    }
+})
+
+router.post('/forgetpassword', user.forgetPassword)
+router.post('/resetpassword', user.passwordReset)
+
 router.post('/createshorturl', authantication, url.genrateURL)
 
 router.get('/admin', authantication, authorization(true), admin.profile)

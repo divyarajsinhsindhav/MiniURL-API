@@ -11,6 +11,7 @@ const apiRouter = require('./routes/v1.routes')
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }))
+app.set('view engine', 'ejs');
 app.use(cors())
 app.use(morgan('dev'))
 app.use('/', indexRouter)

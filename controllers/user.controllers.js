@@ -1,9 +1,11 @@
+require('dotenv').config();
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const UserServices = require('../services/user.services')
 const URLServices = require('../services/url.services')
+const MailServices = require('../services/mail.services')
 const { createAccessToken } = require('../services/authantication.services')
-const User = require('../models/user.models')
 
 exports.register = async (req, res) => {
     try {
@@ -71,6 +73,36 @@ exports.deleteUrl = async (req, res) => {
         return res.send({ message: "Delete the URL successfully", data: data })
     } catch (e) {
         throw Error("Error while delete the URL by Admin")
+    }
+}
+
+exports.forgetPassword = async (req, res) => {
+    try {
+        const body = req.body;
+        const email = body.email;
+        const user = await(UserServices.getUserByEmail(email))
+        if (!user) return res.send({ message: "User not found" });
+        // console.log("Hell0")
+        const token = jwt.sign({ email }, process.env.RESET_PASSWORD_TOKEN, { expiresIn: '1h' })
+        MailServices.forgetPassword(email, token, res);
+        return res.send({ message: "Check your mail box and reset password" });
+    } catch (e) {
+        throw Error("Error while handle forget password")
+    }
+}
+
+exports.passwordReset = async (req, res) => {
+    try {
+        const { token, newPassword } = req.body;
+        const decoded = jwt.verify(token, process.env.RESET_PASSWORD_TOKEN)
+        const email  = decoded.email
+        const user = await UserServices.getUserByEmail(email)
+        if(!user) return res.send("Please try again")
+        const hashPassword = await bcrypt.hash(newPassword, 10)
+        await UserServices.updateUser(user._id, { password: hashPassword })
+        return res.send({ message: "Password successfully updated" })
+    } catch (e) {
+        throw Error("Error while reset the password")
     }
 }
 

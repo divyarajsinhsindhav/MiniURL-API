@@ -52,8 +52,6 @@ exports.updateUser = async (userId, body) => {
 
 exports.deleteUser = async (userId) => {
     try {
-        // Find user and associated URLs
-        const user = await User.findById(userId);
         const urls = await URL.find({ createdBy: userId });
 
         // Delete associated URLs and metrics
