@@ -59,7 +59,8 @@ exports.getAllURLWithMetric = async () => {
                     as: "Matric",
                     pipeline: [{
                         $project: {
-                            clickCount: 1
+                            clickCount: 1,
+                            analysis: 1
                         }
                     }]
                 }

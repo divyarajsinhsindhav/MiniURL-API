@@ -1,3 +1,4 @@
+const UAParser = require('ua-parser-js')
 const Matric = require('../models/matric.models')
 
 exports.createMetric = async (urlId) => {
@@ -10,12 +11,24 @@ exports.createMetric = async (urlId) => {
     }
 }
 
-exports.updateMetric = async (urlId) => {
+exports.updateMetric = async (urlId, userAgent) => {
     try {
+        const parser = new UAParser()
+        const uaResult = parser.setUA(userAgent).getResult();
         const metric = await Matric.findOneAndUpdate(
             { matricOf: urlId },
-            { $inc: { clickCount: 1 } }, 
-            { new: true }
+            { 
+                $inc: { clickCount: 1 }, 
+                $push: {
+                    analysis: {
+                        timestamp: Date.now(),
+                        browser: uaResult.browser.name,
+                        device: uaResult.device.type,
+                        os: uaResult.os.name
+                    }
+                }
+            }, 
+            { new: true, upsert: true }
         );
         return metric;
     } catch (error) {

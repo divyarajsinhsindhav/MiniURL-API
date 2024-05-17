@@ -5,6 +5,19 @@ const matricSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    analysis: [
+        {
+            timestamp: { 
+                type: Number 
+            },
+            browser: {
+                type: String
+            },
+            os: {
+                type: String
+            }
+        }
+    ],
     matricOf: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "URL"

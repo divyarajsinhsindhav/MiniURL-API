@@ -19,7 +19,7 @@ exports.clickOnUrl = async (req, res) => {
         const shortId = req.params.shortId
         const url = await(URLServices.findURL(shortId));
         if (!url) return res.send({ message: "Something went wrong" })
-        await updateMetric(url._id);
+        await updateMetric(url._id, req.headers['user-agent']);
         res.redirect(url.redirectUrl);
     } catch (e) {
         throw Error("Error while redirecting.")
