@@ -44,6 +44,8 @@ MONGODB_URI=mongodb://localhost:27017/your_database_name
 JWT_SECRET=your_secret_key
 ```
 
+## Endpoints
+
 ### User
 
 - `POST /api/v1/register`: Register a new user.
@@ -55,8 +57,6 @@ JWT_SECRET=your_secret_key
 - `POST /api/v1/forgetpassword`: Initiate password reset process.
 - `POST /api/v1/resetpassword`: Reset the password using the token.
 - `GET /api/v1/resetpassword`: Render password reset page.
-
-## Endpoints
 
 ### URL
 
