@@ -50,6 +50,34 @@ JWT_SECRET=your_secret_key
 
 - `POST /api/v1/register`: Register a new user.
 - `POST /api/v1/login`: Log in as an existing user.
+- `POST /api/v1/logout`: Log out the logged-in user.
+- `GET /api/v1/profile`: Get the profile of the logged-in user.
+- `PATCH /api/v1/profile/u`: Update the profile of the logged-in user.
+- `DELETE /api/v1/profile/d/`: Delete the profile of the logged-in user.
+- `POST /api/v1/forgetpassword`: Initiate password reset process.
+- `POST /api/v1/resetpassword`: Reset the password using the token.
+- `GET /api/v1/resetpassword`: Render password reset page.
+
+### URL
+
+- `POST /api/v1/createshorturl`: Generate a short URL for a given long URL.
+- `GET /api/v1/user/url`: Get all URLs created by the logged-in user.
+- `GET /api/v1/user/url/:id`: Get a specific URL created by the logged-in user.
+- `DELETE /api/v1/user/url/d`: Delete a specific URL created by the logged-in user.
+
+### Admin
+
+- `GET /api/v1/admin`: Get the profile of the admin user.
+- `GET /api/v1/admin/getalluser`: Get all users (admin access required).
+- `GET /api/v1/admin/getallurldetails`: Get all URLs with metrics (admin access required).
+- `DELETE /api/v1/admin/user/d/`: Delete a user (admin access required).
+- `DELETE /api/v1/admin/url/d`: Delete a URL (admin access required).
+
+
+### User
+
+- `POST /api/v1/register`: Register a new user.
+- `POST /api/v1/login`: Log in as an existing user.
 - `GET /api/v1/profile`: Get the profile of the logged-in user.
 - `DELETE /api/v1/user/url/d`: Delete the logged-in user.
 - `DELETE /api/v1/profile/d`: Delete the logged-in user.
