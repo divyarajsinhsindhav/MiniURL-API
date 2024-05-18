@@ -35,6 +35,8 @@ router.post('/createshorturl', authantication, url.genrateURL)
 router.get('/admin', authantication, authorization(true), admin.profile)
 router.get('/admin/getalluser', authantication, authorization(true), admin.getAllUser)
 router.get('/admin/getallurldetails', authantication, authorization(true), admin.getAllUrlDetails);
+router.get('/user/url', authantication, user.getAllUrl)
+router.get('/user/url/:id', authantication, user.getUrl)
 
 router.patch('/profile/u', authantication, user.updateProfile)
 

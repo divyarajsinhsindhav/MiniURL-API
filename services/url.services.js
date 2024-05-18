@@ -1,6 +1,7 @@
 const URL = require('../models/url.models')
 const Matric = require('../models/matric.models')
 const crypto = require('crypto');
+const mongoose = require('mongoose')
 
 const generateShortUrl = async () => {
     const NUM_CHARS_SHORT_LINK = 7;
@@ -45,6 +46,37 @@ exports.findURLByUser = async (userId) => {
         return URL.find({ createdBy: userId });
     } catch (e) {
         throw Error("Error while find url by user")
+    }
+}
+
+exports.getUrlWithMetric = async (urlId) => {
+    try { 
+        const objectId = new mongoose.Types.ObjectId(urlId); 
+        const result = URL.aggregate([
+            {
+                $match: { _id: objectId }
+            },
+            {
+                $lookup: {
+                    from: "matrics",
+                    localField: "_id",
+                    foreignField: "matricOf",
+                    as: "Matric",
+                    pipeline: [
+                        {
+                            $project: {
+                                clickCount: 1,
+                                analysis: 1
+                            }
+                        }
+                    ]
+                }
+            }
+        ]);
+
+        return result;
+    } catch (e) {
+        throw Error("Error while getting URL." + e)
     }
 }
 

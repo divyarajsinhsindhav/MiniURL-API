@@ -6,6 +6,7 @@ const UserServices = require('../services/user.services')
 const URLServices = require('../services/url.services')
 const MailServices = require('../services/mail.services')
 const { createAccessToken } = require('../services/authantication.services')
+const mongoose = require('mongoose');
 
 exports.register = async (req, res) => {
     try {
@@ -43,6 +44,28 @@ exports.profile = async (req, res) => {
         return res.send({ message: "Successfully geting the user.", data: User, urls: urls })
     } catch (e) {
         throw Error('Error during getting profile')
+    }
+}
+
+exports.getAllUrl = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const data = await URLServices.findURLByUser(userId)
+        if(!data) return res.send({ message: "Data not found." })
+        return res.send({ message: "Getting url successfully", data: data })
+    } catch (e) {
+        throw Error("Error whilw getting all Url")
+    }
+}
+
+exports.getUrl = async (req, res) => {
+    try{
+        const urlId = req.params.id;
+        const data = await (URLServices.getUrlWithMetric(urlId))
+        if(!data) return res.send({ message: "Data not found" })
+        return res.send({ data: data })
+    } catch (e) {
+        throw new Error("Error while get url" + e)
     }
 }
 
