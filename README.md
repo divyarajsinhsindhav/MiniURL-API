@@ -56,6 +56,8 @@ JWT_SECRET=your_secret_key
 - `POST /api/v1/resetpassword`: Reset the password using the token.
 - `GET /api/v1/resetpassword`: Render password reset page.
 
+## Endpoints
+
 ### URL
 
 - `POST /api/v1/createshorturl`: Generate a short URL for a given long URL.
