@@ -9,6 +9,9 @@ const urlSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    qrcode: {
+        type: String,
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"

@@ -1,7 +1,8 @@
 const URL = require('../models/url.models')
 const Matric = require('../models/matric.models')
-const crypto = require('crypto');
+const crypto = require('crypto')
 const mongoose = require('mongoose')
+const qrcode = require('qrcode')
 
 const generateShortUrl = async () => {
     const NUM_CHARS_SHORT_LINK = 7;
@@ -103,13 +104,21 @@ exports.getAllURLWithMetric = async () => {
     }
 }
 
-exports.updateURL = async () => {
+exports.getURLbyId = async (urlId) => {
     try {
-        
+        return URL.findById(urlId)
     } catch (e) {
-        
+        throw Error("Error while getting url using id", e)
     }
 }
+
+exports.updateURLById = async (id, updateData) => {
+    try {
+        return await URL.findByIdAndUpdate(id, updateData, { new: true });
+    } catch (error) {
+        throw new Error('Error updating URL: ' + error.message);
+    }
+};
 
 exports.deleteURL = async (urlId) => {
     try {

@@ -31,6 +31,7 @@ router.post('/forgetpassword', user.forgetPassword)
 router.post('/resetpassword', user.passwordReset)
 
 router.post('/createshorturl', authantication, url.genrateURL)
+router.post('/url/:id/getqrcode', authantication, url.generateQrcode)
 
 router.get('/admin', authantication, authorization(true), admin.profile)
 router.get('/admin/getalluser', authantication, authorization(true), admin.getAllUser)
