@@ -5,6 +5,7 @@ const { uploadOnCloudinary } = require('../services/cloudinary.services')
 const QRCode = require('qrcode');
 const fs = require('fs')
 const path = require('path');
+const redisClient = require('../services/redis');
 
 exports.genrateURL = async (req, res) => {
     try {
@@ -20,15 +21,12 @@ exports.genrateURL = async (req, res) => {
 
 exports.generateQrcode = async (req, res) => {
     try {
-
         const urlId = req.params.id;
         const data = await URLServices.getURLbyId(urlId); // Await the promise
-        // if(data.qrcode!==null) return res.send({ message: "QRCode already exist." })
         const shortId = data.shortId;
         const url = `http://localhost:3000/${shortId}`;
         const directoryPath = path.resolve(__dirname, '../public/qrcode');
         const filePath = path.resolve(directoryPath, 'file.png');
-
 
         if (!fs.existsSync(directoryPath)) {
             fs.mkdirSync(directoryPath, { recursive: true });
@@ -54,7 +52,6 @@ exports.generateQrcode = async (req, res) => {
         const qrCodeUrl = uploadResult.secure_url;
         await URLServices.updateURLById(urlId, { qrcode: qrCodeUrl });
 
-
         return res.send({ uploadResult, qrCodeDataURL, data });
     } catch (error) {
         console.error("Error while generating QR code: ", error);
@@ -62,18 +59,35 @@ exports.generateQrcode = async (req, res) => {
     }
 };
 
-
 exports.clickOnUrl = async (req, res) => {
     try {
-        const shortId = req.params.shortId
-        const url = await(URLServices.findURL(shortId));
-        if (!url) return res.send({ message: "Something went wrong" })
-        await updateMetric(url._id, req.headers['user-agent']);
-        res.redirect(url.redirectUrl);
-    } catch (e) {
-        throw Error("Error while redirecting.")
-    }
-}
+        const shortId = req.params.shortId; // Get the shortId from the URL
+        const cacheKey = `url_${shortId}`; // Define the cache key
 
+        // Try to fetch the URL from Redis cache
+        const cachedUrl = await redisClient.get(cacheKey);
+        if (cachedUrl) {
+            const url = JSON.parse(cachedUrl); // Parse the cached data
+            return res.redirect(url.redirectUrl); // Redirect to the cached URL
+        }
+
+        // If not in cache, fetch from the database
+        const url = await URLServices.findURL(shortId);
+        if (!url) {
+            return res.status(404).json({ message: "URL not found" }); // Send 404 if URL not found
+        }
+
+        // Save the URL in the Redis cache for faster access next time
+        await redisClient.setEx(cacheKey, 432000, JSON.stringify(url)); // Cache for 1 hour
+
+        await updateMetric(url._id, req.headers['user-agent']);
+
+        // Redirect to the actual URL
+        res.redirect(url.redirectUrl);
+    } catch (error) {
+        console.error("Error in clickOnUrl:", error); // Log the error for debugging
+        res.status(500).json({ error: "Something went wrong" }); // Return generic error response
+    }
+};
 
 
