@@ -13,7 +13,7 @@
 
 ## Introduction
 
-This API provides functionality for a URL shortening service. Users can register, login, generate short URLs, and access administrative features.
+This API provides functionality for a URL shortening service. Users can register, login, generate short URLs, and access administrative features, 
 
 ## Postman Collection
 
@@ -26,6 +26,7 @@ You can find the Postman collection for this API [here](https://api.postman.com/
 - MongoDB (or your preferred database)
 - JSON Web Tokens (JWT) for authentication
 - bcrypt for password hashing
+- Redis for caching
 
 ## How to Run
 
@@ -33,6 +34,16 @@ You can find the Postman collection for this API [here](https://api.postman.com/
 2. Install dependencies with `npm install`.
 3. Set up your environment variables (e.g., database connection, JWT secret).
 4. Run the server with `npm start`.
+
+## Redis
+
+Redis is used in this API for caching purposes. It helps improve the performance by storing frequently accessed data in memory, reducing the need to repeatedly query the database. 
+
+### Setting Up Redis
+
+1. Install Redis on your machine. You can follow the instructions from the [official Redis website](https://redis.io/download).
+2. Ensure Redis is running on its default port (6379). 
+3. In the `.env` file, add the following variable:
 
 ## Setting Up Environment Variables
 
